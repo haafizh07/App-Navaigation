@@ -9,4 +9,13 @@
         android:name="org.d3if4076.modul5.ui.HitungFragment"
         android:label="HitungFragment"
         tools:layout="@layout/fragment_hitung"/>
+    <action
+        android:id="@+id/action_hitungFragment_to_saranFragment"
+        app:destination="@id/saranFragment" />
+    <fragment
+        android:id="@+id/saranFragment"
+        android:name="org.d3if4076.modul5.ui.SaranFragment"
+        android:label="SaranFragment"
+        tools:layout="@layout/fragment_saran"/>
+
 </navigation>
