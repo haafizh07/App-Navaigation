@@ -16,6 +16,10 @@
         android:id="@+id/saranFragment"
         android:name="org.d3if4076.modul5.ui.SaranFragment"
         android:label="SaranFragment"
-        tools:layout="@layout/fragment_saran"/>
+        tools:layout="@layout/fragment_saran">
+        <argument
+            android:name="kategori"
+            app:argType="org.d3if4076.modul5.data.KategoriBmi" />
+    </fragment>
 
 </navigation>
