@@ -2,33 +2,37 @@ package org.d3if4076.modul5.ui
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import org.d3if4076.modul5.R
 import org.d3if4076.modul5.data.KategoriBmi
 import org.d3if4076.modul5.databinding.FragmentHitungBinding
 
-class HitungFragment : Fragment(){
+class HitungFragment : Fragment() {
     private lateinit var binding: FragmentHitungBinding
     private lateinit var kategoriBmi: KategoriBmi
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentHitungBinding.inflate(layoutInflater, container, false)
         binding.button.setOnClickListener { hitungbmi() }
         binding.saranButton.setOnClickListener { view: View ->
             view.findNavController().navigate(
-                HitungFragmentDirections.
-                actionHitungFragmentToSaranFragment(kategoriBmi)
-
-
+                HitungFragmentDirections.actionHitungFragmentToSaranFragment(kategoriBmi)
             )
         }
 
+        setHasOptionsMenu(true)
         return binding.root
+
     }
+
     private fun hitungbmi() {
         val berat = binding.beratEditText.text.toString()
         if (TextUtils.isEmpty(berat)) {
@@ -58,6 +62,7 @@ class HitungFragment : Fragment(){
         binding.saranButton.visibility = View.VISIBLE
 
     }
+
     private fun getKategori(bmi: Float, isMale: Boolean): String {
         kategoriBmi = if (isMale) {
             when {
@@ -80,5 +85,21 @@ class HitungFragment : Fragment(){
         }
 
         return getString(stringRes)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.options_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_about) {
+            findNavController().navigate(
+                R.id.action_hitungFragment_to_aboutFragment
+            )
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+
     }
 }
