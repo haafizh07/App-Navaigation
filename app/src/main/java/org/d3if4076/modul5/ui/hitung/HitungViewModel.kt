@@ -13,12 +13,9 @@ import org.d3if4076.modul5.db.BmiDao
 import org.d3if4076.modul5.db.BmiEntity
 
 class HitungViewModel(private val db: BmiDao) : ViewModel() {
-    private val hasilBmi = MutableLiveData<HasilBmi?>()
     private val navigasi = MutableLiveData<KategoriBmi?>()
-    val data = db.getLastBmi()
-
+    private val hasilBmi = MutableLiveData<HasilBmi?>()
     fun hitungBmi(berat: String, tinggi: String, isMale: Boolean) {
-        val data = db.getLastBmi()
         val tinggiCm = tinggi.toFloat() / 100
         val bmi = berat.toFloat() / (tinggiCm * tinggiCm)
         val kategori = if (isMale) {
@@ -54,7 +51,9 @@ class HitungViewModel(private val db: BmiDao) : ViewModel() {
     fun selesaiNavigasi() {
         navigasi.value = null
     }
-
-    fun getHasilBmi() : LiveData<HasilBmi?> = hasilBmi
     fun getNavigasi() : LiveData<KategoriBmi?> = navigasi
+    fun getHasilBmi() : LiveData<HasilBmi?> = hasilBmi
 }
+
+
+
