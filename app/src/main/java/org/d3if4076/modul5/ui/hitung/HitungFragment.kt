@@ -1,4 +1,4 @@
-package org.d3if4076.modul5.ui
+package org.d3if4076.modul5.ui.hitung
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,12 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import org.d3if4076.modul5.R
 import org.d3if4076.modul5.data.KategoriBmi
 import org.d3if4076.modul5.databinding.FragmentHitungBinding
+import org.d3if4076.modul5.ui.HitungFragmentDirections
 
 class HitungFragment : Fragment() {
     private val viewModel: HitungViewModel by viewModels()
@@ -28,7 +28,7 @@ class HitungFragment : Fragment() {
         binding.button.setOnClickListener { hitungbmi() }
         binding.saranButton.setOnClickListener { view: View ->
             view.findNavController().navigate(
-                HitungFragmentDirections.actionHitungFragmentToSaranFragment(kategoriBmi)
+                    HitungFragmentDirections.actionHitungFragmentToSaranFragment(kategoriBmi)
             )
         }
         binding.shareButton.setOnClickListener { shareData() }
@@ -58,6 +58,7 @@ class HitungFragment : Fragment() {
         }
 
         val isMale = selectedId == R.id.priaRadioButton
+        viewModel.hitungBmi(berat, tinggi, isMale)
 
 
     }
