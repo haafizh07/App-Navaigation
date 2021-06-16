@@ -8,17 +8,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import org.d3if4076.modul5.R
 import org.d3if4076.modul5.data.KategoriBmi
 import org.d3if4076.modul5.databinding.FragmentHitungBinding
-import org.d3if4076.modul5.ui.HitungFragmentDirections
+
 
 class HitungFragment : Fragment() {
     private val viewModel: HitungViewModel by viewModels()
     private lateinit var binding: FragmentHitungBinding
-    private lateinit var kategoriBmi: KategoriBmi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,11 +24,7 @@ class HitungFragment : Fragment() {
     ): View? {
         binding = FragmentHitungBinding.inflate(layoutInflater, container, false)
         binding.button.setOnClickListener { hitungbmi() }
-        binding.saranButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(
-                    HitungFragmentDirections.actionHitungFragmentToSaranFragment(kategoriBmi)
-            )
-        }
+        binding.saranButton.setOnClickListener { viewModel.mulaiNavigasi() }
         binding.shareButton.setOnClickListener { shareData() }
         setHasOptionsMenu(true)
         return binding.root
@@ -77,8 +71,8 @@ class HitungFragment : Fragment() {
         )
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT, message)
-        if (shareIntent.resolveActivity(
-                requireActivity().packageManager) != null) {
+        if (shareIntent.resolveActivity(requireActivity().packageManager) != null)
+        {
             startActivity(shareIntent)
         }
     }
@@ -111,6 +105,11 @@ class HitungFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getNavigasi().observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            findNavController().navigate(HitungFragmentDirections.actionHitungFragmentToSaranFragment(it))
+            viewModel.selesaiNavigasi()
+        }
         viewModel.getHasilBmi().observe(viewLifecycleOwner) {
             if (it == null) return@observe
             binding.bmiTextView.text = getString(R.string.bmi_x, it.bmi)
